@@ -1,0 +1,297 @@
+:root {
+	font-size: 62.5%; /* (62.5/100) * 16px = 10px */
+	--font-size--small: 1.4rem; /* 14px */
+	--font-size--default: 1.6rem; /* 16px */
+	--font-size--large: 2.4rem; /* 24px */
+	--green: #3AAFA9;
+	--green-light: #7AFDCA;
+	--green-dark: #17252A;
+	--green-button: #00FFAA;
+	--green-button-hover: #00FFEE;
+}
+
+body {
+    background-color: var(--green);
+	font-family: 'Roboto', sans-serif;
+}
+
+/* Change the white to any color ;) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px var(--green-light) inset;
+	box-shadow: 0 0 0 30px var(--green-light) inset;
+}
+
+input:-webkit-autofill.altoContraste,
+input:-webkit-autofill:hover.altoContraste, 
+input:-webkit-autofill:focus.altoContraste, 
+input:-webkit-autofill:active.altoContraste {
+	-webkit-box-shadow: 0 0 0 30px #000 inset;
+	box-shadow: 0 0 0 30px #000 inset;
+}
+
+/*Change text in autofill textbox*/
+input:-webkit-autofill {
+    -webkit-text-fill-color: var(--green-dark);
+}
+
+/*Change text in autofill textbox*/
+input:-webkit-autofill.altoContraste {
+    -webkit-text-fill-color: #FFF;
+}
+
+input, button, .resultadoConsulta {
+	font-size: var(--font-size--default) !important;
+}
+
+.formPadrao, .formPadrao:focus, .formPadrao::selection {
+	background-color: var(--green-light);
+	color: var(--green-dark);
+	border: 2px solid var(--green-dark);
+}
+
+#barra-auxiliar {
+	z-index: 2;
+}
+
+#consulta-cidade {
+	width: 80%;
+}
+
+#data-consulta {
+	width: 20%;
+	height: 45px;
+}
+
+.backgroundVerde {
+	background-color: var(--green);
+}
+
+.navegacao {
+    margin-top: 40px;
+    background-color: var(--green-dark);
+	height: 74px;
+	z-index: 2;
+}
+
+.navegacao a {
+    color: #FEFFFF;
+    font-size: var(--font-size--default);
+}
+
+#consulta-covid {
+    font-size: var(--font-size--large);
+}
+
+
+#barra-acessibilidade a {
+	color: var(--green-dark);
+	font-size: var(--font-size--default);
+}
+
+a.alto-contraste:before {
+	font-family: "Font Awesome 5 Free";
+	content: "\f042";
+	display: inline-block;
+	padding-right: 3px;
+	vertical-align: middle;
+	font-weight: 900;
+ }
+ 
+.normal:before {
+	font-family: "Font Awesome 5 Free";
+	content: "\f031";
+	display: inline-block;
+	padding-right: 3px;
+	vertical-align: middle;
+	font-weight: 900;
+}
+
+.diminuir:before {
+	font-family: "Font Awesome 5 Free";
+	content: "\f031\f068";
+	display: inline-block;
+	padding-right: 3px;
+	vertical-align: middle;
+	font-weight: 900;
+}
+
+.aumentar:before {
+	font-family: "Font Awesome 5 Free";
+	content: "\f031\f067";
+	display: inline-block;
+	padding-right: 3px;
+	vertical-align: middle;
+	font-weight: 900;
+}
+
+.body-container {
+	margin-top: 160px;
+	z-index: 1;
+}
+
+
+.flip-horizontal {
+	transform: scaleX(-1);
+}
+
+.cartoon-covid {
+	height: 196px;
+	width: 196px;
+}
+
+
+#consulta-cidade {
+	width: 50%;
+	height: 45px;
+}
+
+.button-container {
+	margin-top: 20px;
+}
+
+.button-container button {
+	border-radius: 2px;
+	height: 34px;
+	min-width: 130px;
+	font-weight: 600;
+	transition: 0.3s;
+}
+
+.buttonPadrao {
+	background-color: var(--green-button);
+}
+
+.buttonPadrao:focus {
+	outline-width: 0;
+}
+
+.buttonPadrao:hover {
+	background-color: var(--green-button-hover);
+}
+
+.altoContraste, .altoContraste:focus {
+	background-color: #000;
+	color: #FFF;
+	border: 2px solid #FFF;
+}
+
+button.altoContraste:hover {
+	background-color: #444;
+}
+
+.resultado-container {
+	margin-top: 20px;
+}
+
+.resultadoConsulta {
+	background-color: var(--green-light);
+	color: var(--green-dark);
+	border: 2px solid var(--green-dark);
+	border-radius: 2px;
+	min-height: 300px;
+	height: 600px;
+}
+
+.table-10 {
+	margin: 0 auto;
+}
+
+table.table-10, .table-10 td, .table-10 th {
+	border: 1px solid black;
+}
+
+.table-10 td {
+	padding: 8px;
+}
+.table-10 th {
+	font-weight: bold;
+}
+
+.centerText {
+	text-align: center;
+}
+
+.leftText {
+	text-align: left;
+}
+
+.altoContraste:read-only {
+	background-color: #000;
+	color: #FFF;
+	border: 2px solid #FFF;
+}
+
+.placeholderAltoContraste::-webkit-input-placeholder {
+	color: rgba(255, 255, 255,0.8);
+}
+
+.placeholderNormal::-webkit-input-placeholder {
+	color: rgba(23, 37, 42, 0.5);
+}
+
+.invisivel {
+	display: none;
+}
+
+.container-contato {
+	padding: 20px;
+	min-height: 500px;
+
+}
+
+.container-contato-padrao {
+	color: var(--green-dark);
+	border: 2px solid var(--green-dark);
+	border-radius: 2px;
+}
+
+#resultado-sucesso h2 {
+	font-size: 2rem;
+}
+
+.nomeCidade {
+	font-size: 2rem;
+}
+
+.bandeira {
+	font-size: 1.5rem;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.container-sobre {
+	width: 50%;
+	padding: 50px !important;
+	line-height: 1.5;
+	font-size: 1.1rem;
+	margin-top: 150px !important;
+}
+
+.container-sobre p {
+	margin-bottom: 10px;
+}
+
+.container-sobre h1 {
+	font-size:  2rem;
+}
+
+.container-sobre h2 {
+	font-size:  1.5rem;
+}
+
+.mb10 {
+	margin-bottom: 10px;
+}
+
+#mensagem {
+	resize: none;
+}
+
+.bold {
+	font-weight: bold;
+}
+ 
+ 
