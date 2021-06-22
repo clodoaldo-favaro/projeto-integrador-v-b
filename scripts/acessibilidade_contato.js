@@ -35,7 +35,7 @@ $(document).ready(function() {
             $('.acessibilidade a').css('color', '#FFF');
             $('.container-contato').removeClass('formPadrao');
             $('.container-contato').addClass('altoContraste');
-            $('#barra-auxiliar').removeClass('backgroundVerde');
+            $('#barra-auxiliar').removeClass('backgroundNormal');
             $('#barra-auxiliar').addClass('altoContraste');
             
             $('#nome').removeClass('formPadrao');
@@ -69,7 +69,7 @@ $(document).ready(function() {
             $('.container-contato').addClass('formPadrao');
             $('.container-contato').removeClass('altoContraste');
             $('#barra-auxiliar').removeClass('altoContraste');
-            $('#barra-auxiliar').addClass('backgroundVerde');
+            $('#barra-auxiliar').addClass('backgroundNormal');
 
             $('#nome').addClass('formPadrao');
             $('#nome').removeClass('altoContraste');

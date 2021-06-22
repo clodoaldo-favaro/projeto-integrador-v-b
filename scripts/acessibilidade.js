@@ -59,7 +59,7 @@ $(document).ready(function() {
             $('#resultado-consulta').removeClass('formPadrao');
             $('#resultado-consulta').addClass('altoContraste');
             $('#resultado-consulta').addClass('center');
-            $('#barra-auxiliar').removeClass('backgroundVerde');
+            $('#barra-auxiliar').removeClass('backgroundNormal');
             $('#barra-auxiliar').addClass('altoContraste');
         } else {
             $('body').css('background-color', 'rgb(58, 175, 169)');
@@ -94,7 +94,7 @@ $(document).ready(function() {
             $('#resultado-consulta').removeClass('altoContraste');
             $('#resultado-consulta').addClass('formPadrao');
             $('#barra-auxiliar').removeClass('altoContraste');
-            $('#barra-auxiliar').addClass('backgroundVerde');
+            $('#barra-auxiliar').addClass('backgroundNormal');
         }
         return false;
     }

@@ -36,7 +36,7 @@ $(document).ready(function() {
             $('.acessibilidade a').css('color', '#FFF');
             $('.container-sobre').removeClass('formPadrao');
             $('.container-sobre').addClass('altoContraste');
-            $('#barra-auxiliar').removeClass('backgroundVerde');
+            $('#barra-auxiliar').removeClass('backgroundNormal');
             $('#barra-auxiliar').addClass('altoContraste');
             
         } else {
@@ -52,7 +52,7 @@ $(document).ready(function() {
             $('.container-sobre').addClass('formPadrao');
             $('.container-sobre').removeClass('altoContraste');
             $('#barra-auxiliar').removeClass('altoContraste');
-            $('#barra-auxiliar').addClass('backgroundVerde');
+            $('#barra-auxiliar').addClass('backgroundNormal');
         }
         return false;
     });
