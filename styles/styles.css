@@ -63,13 +63,27 @@ button.formPadrao:focus {
 	z-index: 2;
 }
 
-#consulta-cidade {
-	width: 80%;
+#data-inicial, #data-final {
+	width: 40%;
+	height: 45px;
 }
 
-#data-consulta {
-	width: 20%;
-	height: 45px;
+.data-wrapper {
+	margin-bottom: 12px;
+}
+
+#anos-anteriores {
+	line-height: 1.5;
+	height: calc(1.5em + .75rem + 2px);
+	margin-right: 12px;
+}
+
+label[for="anos-anteriores"] {
+	font-size: 16px;
+}
+
+.data-wrapper span {
+	font-size: 24px;
 }
 
 .backgroundNormal {
@@ -141,16 +155,22 @@ a.alto-contraste:before {
 	z-index: 1;
 }
 
+.side-bar {
+	padding: 0px 16px;
+	width: 30%;
+}
+
 #consulta-cidade {
-	width: 50%;
+	max-width: 100%;
 	height: 45px;
+	margin-bottom: 12px;
 }
 
 .button-container {
 	margin-top: 20px;
 }
 
-.button-container button {
+#botao-consulta {
 	border-radius: 2px;
 	height: 34px;
 	min-width: 130px;
@@ -181,7 +201,8 @@ button.altoContraste:hover {
 }
 
 .resultado-container {
-	margin-top: 20px;
+	width: 70%;
+	padding: 0px 16px;
 }
 
 .resultadoConsulta {

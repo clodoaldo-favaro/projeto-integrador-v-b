@@ -19,47 +19,6 @@ $(document).ready(
         } else {
             mostrarErros(res['erros']);
         }
-    }), 
-
-    $('#botao-consulta-10-mais').on('click', function() {
-        var res = validarDataInformada($('#data-consulta').val().trim());
-        debugger;
-        if (!res['erros'].length) {
-            $.ajax({
-                url: '../backend/funcoes.php',
-                type: 'POST',
-                data: {nomeCidade:$('#consulta-cidade').val(), dataConsulta:$('#data-consulta').val(), action:'consultaDezMais'}
-            }).done(function(response) {
-                debugger;
-                if (!response['erros']) {
-                    montarResultadoDezMais(response);
-                    mostrarResultado(response);
-                } else {
-                    mostrarErros(response['erros']);
-                }
-            }
-            );
-        } else {
-            mostrarErros(res['erros']);
-        }
-    }),
-
-    $('#botao-consulta-brasil').on('click', function() {
-        $.ajax({
-            url: '../backend/funcoes.php',
-            type: 'POST',
-            data: {nomeCidade:$('#consulta-cidade').val(), dataConsulta:$('#data-consulta').val(), action:'consultaBrasil'}
-        }).done(function(response) {
-            debugger;
-            if (!response['erros']) {
-                montarResultadoBrasil(response);
-                mostrarResultado(response);
-            } else {
-                mostrarErros(response['erros']);
-            }
-        }
-        );
-         
     })
 );
 
