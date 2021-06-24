@@ -6,14 +6,17 @@ $(document).ready(
         if (!res['erros']) {
             $.ajax({
                 url: '../backend/funcoes.php',
-                type: 'POST',
-                data: {'dataInicial': $('#data-inicial').val(), 'dataFinal': $('#data-final').val(), 'nomeProduto': $('#nome-produto').val()}
+                type: 'GET',
+                data: {dataInicial: $('#data-inicial').val(), dataFinal: $('#data-final').val(), nomeProduto: $('#nome-produto').val()},
+                sucess: function(data) {
+                    console.log(data);
+                }
             }).done(function(response) {
                 if (!response['erros']) {
-                    montarResultadoConsultaCidade(response);
-                    mostrarResultado();
+                    //montarResultadoConsultaCidade(response);
+                    //mostrarResultado();
                 } else {
-                    mostrarErros(response['erros']);
+                    //mostrarErros(response['erros']);
                 }
             }
             );

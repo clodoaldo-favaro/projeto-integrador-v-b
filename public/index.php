@@ -20,7 +20,7 @@
 
     <div class="d-flex body-container">
         <div class="d-flex flex-column side-bar">
-            <form action="" method="get">
+            <form>
                 <input class="d-inline-flex form-control placeholderNormal formPadrao" type="text" id="nome-produto" name="nome-produto" placeholder="Digite o nome do produto (opcional)">    
                 <div class="d-flex justify-content-between align-items-center data-wrapper">
                     <input class="d-inline-flex form-control formPadrao" type="date" name="data-inicial" id="data-inicial">

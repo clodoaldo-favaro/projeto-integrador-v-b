@@ -2,13 +2,17 @@
 
 require_once('conexao.php');
 
-if (true) {
-    print_r($_POST['dataInicial']);
+if (isset($_GET['dataInicial'])) {
+    obterPrevisaoVendas();
+    echo('cu');
 }
 
 
 function obterPrevisaoVendas() {
-    $nomeCidade = $_GET['nomeCidade'];
+    //$nomeProduto = $_GET['nomeProduto'];
+    //echo $nomeProduto;
+    echo 'hoho';
+    /*$nomeCidade = $_GET['nomeCidade'];
     $dataConsulta = $_POST['dataConsulta'];    
        
     $PDO = conecta_bd();
@@ -36,10 +40,11 @@ function obterPrevisaoVendas() {
         ];
     } else {
         $jsonRetorno = ['erros' => ['Não foram localizados registros para a cidade e período informados']];
-    }
+    }*/
         
     header('Content-Type: application/json');
-    echo json_encode($jsonRetorno);
+    //echo json_encode($jsonRetorno);
+    echo json_encode(['hey' => 'jude']);
     exit;
 }
 
