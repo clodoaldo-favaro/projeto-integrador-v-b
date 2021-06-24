@@ -2,22 +2,13 @@
 
 require_once('conexao.php');
 
-if (isset($_POST['action'])) {
-    $funcao = $_POST['action'];
-    if ($funcao === 'consultaCidade') {
-        consultaCidade();
-    } else if ($funcao === 'consultaDezMais') {
-        consultaDezMais();
-    } else if ($funcao === 'consultaBrasil') {
-        consultaBrasil();
-    } else {
-        return ['erros' => ['Função \"' . $funcao .  '\" não encontrada']];
-    }
-    
+if (true) {
+    print_r($_POST['dataInicial']);
 }
 
-function consultaCidade() {
-    $nomeCidade = $_POST['nomeCidade'];
+
+function obterPrevisaoVendas() {
+    $nomeCidade = $_GET['nomeCidade'];
     $dataConsulta = $_POST['dataConsulta'];    
        
     $PDO = conecta_bd();

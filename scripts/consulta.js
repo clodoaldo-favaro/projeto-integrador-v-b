@@ -1,12 +1,13 @@
 $(document).ready(
     $('#botao-consulta').on('click', function(){
-        var res = validarDadosInformados();
+        //var res = validarDadosInformados();
+        var res = [];
         
         if (!res['erros']) {
             $.ajax({
                 url: '../backend/funcoes.php',
                 type: 'POST',
-                data: {nomeCidade:$('#consulta-cidade').val(), dataConsulta:$('#data-consulta').val(), action:'consultaCidade'}
+                data: {'dataInicial': $('#data-inicial').val(), 'dataFinal': $('#data-final').val(), 'nomeProduto': $('#nome-produto').val()}
             }).done(function(response) {
                 if (!response['erros']) {
                     montarResultadoConsultaCidade(response);
@@ -26,7 +27,7 @@ $(document).ready(
 function validarDadosInformados() {
     var res = [];
     var erros = [];
-    var nomeCidade = $('#consulta-cidade').val().trim();
+    var nomeCidade = $('#nome-produto').val().trim();
     var dataConsulta = $('#data-consulta').val().trim();
     
     erros = erros.concat(validarCidadeInformada(nomeCidade)['erros'], validarDataInformada(dataConsulta)['erros']);
@@ -105,7 +106,7 @@ function mostrarErros(erros) {
 }
 
 function montarResultadoConsultaCidade(data) {
-    var nomeCidade = $('#consulta-cidade').val();
+    var nomeCidade = $('#nome-produto').val();
     var bandeira = data['bandeira'];
     var casos = data['casosConfirmados'];
     var obitos = data['qtdeObitos'];

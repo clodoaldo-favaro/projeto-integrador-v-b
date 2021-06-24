@@ -36,10 +36,10 @@ $(document).ready(function() {
             $('#header').css('border', '2px solid white');
             $('.acessibilidade a').css('color', '#FFF');
             
-            $('#consulta-cidade').removeClass('formPadrao');
-            $('#consulta-cidade').addClass('altoContraste');
-            $('#consulta-cidade').removeClass('placeholderNormal');
-            $('#consulta-cidade').addClass('placeholderAltoContraste');
+            $('#nome-produto').removeClass('formPadrao');
+            $('#nome-produto').addClass('altoContraste');
+            $('#nome-produto').removeClass('placeholderNormal');
+            $('#nome-produto').addClass('placeholderAltoContraste');
 
             $('#data-consulta').removeClass('formPadrao');
             $('#data-consulta').addClass('altoContraste');
@@ -71,10 +71,10 @@ $(document).ready(function() {
             $('#header').css('border', 'none');
             $('.acessibilidade a').css('color', '#17252A');
             
-            $('#consulta-cidade').removeClass('altoContraste');
-            $('#consulta-cidade').addClass('formPadrao');
-            $('#consulta-cidade').removeClass('placeholderAltoContraste');
-            $('#consulta-cidade').addClass('placeholderNormal');
+            $('#nome-produto').removeClass('altoContraste');
+            $('#nome-produto').addClass('formPadrao');
+            $('#nome-produto').removeClass('placeholderAltoContraste');
+            $('#nome-produto').addClass('placeholderNormal');
 
             $('#data-consulta').removeClass('altoContraste');
             $('#data-consulta').addClass('formPadrao');
