@@ -40,7 +40,7 @@ function obterPrevisaoVendas() {
     
         
     if (empty($retorno)) {
-        $jsonRetorno = ['erros' => ['Não foram localizados registros para a cidade e período informados']];
+        $retorno = ['erros' => ['Não foram localizados registros para a cidade e período informados']];
     }
         
     header('Content-Type: application/json');
