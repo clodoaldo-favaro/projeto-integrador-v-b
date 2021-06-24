@@ -15,37 +15,37 @@ function obterPrevisaoVendas() {
     //echo $nomeProduto;
     /*$nomeCidade = $_GET['nomeCidade'];
     $dataConsulta = $_POST['dataConsulta'];    
-       
+    */   
     $PDO = conecta_bd();
-    $sql = "SELECT casos, recuperados, mortos, bandeiraAtual 
-            FROM casos as a 
+    /*$sql = "SELECT id, descricao, unidade
+            FROM produto as p
             WHERE a.idCidade in (SELECT id 
                                 FROM cidades 
                                 WHERE nome = :nomeCidade)
-            and a.data= :dataConsulta";
+            and a.data= :dataConsulta";*/
 
+    $sql = "SELECT * from produto where id > 0";
     $stmt = $PDO->prepare($sql);
-    $stmt->bindParam(':nomeCidade', $nomeCidade);
-    $stmt->bindParam(':dataConsulta', $dataConsulta);
+    /*$stmt->bindParam(':nomeCidade', $nomeCidade);
+    $stmt->bindParam(':dataConsulta', $dataConsulta);*/
     $stmt->execute();
-
-    $registro = $stmt->fetch();
-    if ($stmt->rowCount()) {
-        $jsonRetorno = [
-            'nomeCidade' => $nomeCidade,
-            'dataConsulta' => $dataConsulta,
-            'casosConfirmados' => (int)$registro["casos"],
-            'qtdeRecuperados' => (int)$registro["recuperados"],
-            'qtdeObitos' => (int)$registro["mortos"],
-            'bandeira' => $registro["bandeiraAtual"]
+    $retorno = [];
+    while ($row = $stmt->fetch()) {
+        $retorno[] = [
+            'id' => $row['id'],
+            'descricao' => $row['descricao'],
+            'unidade' => $row['unidade'],
         ];
-    } else {
+    }
+    
+        
+    if (empty($retorno)) {
         $jsonRetorno = ['erros' => ['Não foram localizados registros para a cidade e período informados']];
-    }*/
+    }
         
     header('Content-Type: application/json');
-    //echo json_encode($jsonRetorno);
-    echo json_encode(['hey' => 'jude']);
+    echo json_encode($retorno);
+    
     exit;
 }
 
