@@ -2,16 +2,17 @@
 
 require_once('conexao.php');
 
-if (isset($_GET['dataInicial'])) {
+if (isset($_GET['action'])) {
     obterPrevisaoVendas();
-    echo('cu');
 }
 
+function teste() {
+    echo 'oi';
+}
 
 function obterPrevisaoVendas() {
     //$nomeProduto = $_GET['nomeProduto'];
     //echo $nomeProduto;
-    echo 'hoho';
     /*$nomeCidade = $_GET['nomeCidade'];
     $dataConsulta = $_POST['dataConsulta'];    
        
