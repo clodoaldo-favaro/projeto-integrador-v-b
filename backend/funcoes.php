@@ -3,8 +3,8 @@
 require_once('conexao.php');
 
 if (isset($_GET['action'])) {
-    //obterPrevisaoVendas();
-    popularDados();
+    //popularDados();
+    obterPrevisaoVendas();
 }
 
 function teste() {
@@ -12,34 +12,43 @@ function teste() {
 }
 
 function obterPrevisaoVendas() {
-    //$nomeProduto = $_GET['nomeProduto'];
-    //echo $nomeProduto;
-    /*$nomeCidade = $_GET['nomeCidade'];
-    $dataConsulta = $_POST['dataConsulta'];    
-    */   
+    $nomeProduto = trim($_GET['nomeProduto']);
+    $dataInicial = date("Y-m-d", strtotime($_GET['dataInicial']));    
+    $dataFinal = date("Y-m-d", strtotime($_GET['dataFinal']));
+    
+    $whereProduto = $nomeProduto ? (" AND p.descricao  LIKE CONCAT ('%', :nomeProduto,  '%')") : "";
+    
     $PDO = conecta_bd();
-    /*$sql = "SELECT id, descricao, unidade
-            FROM produto as p
-            WHERE a.idCidade in (SELECT id 
-                                FROM cidades 
-                                WHERE nome = :nomeCidade)
-            and a.data= :dataConsulta";*/
-
-    $sql = "SELECT * from produto where id > 0";
+    $sql = "SELECT p.id as idProduto, p.descricao, p.unidade, YEAR(v.data) as ano,  SUM(vi.quantidade) as totalVendas
+        FROM vendaitem vi 
+            JOIN venda v ON vi.idVenda = v.id 
+            JOIN produto p ON vi.idProduto = p.id 
+            WHERE v.data BETWEEN :dataInicial AND :dataFinal " . $whereProduto .
+            " GROUP BY p.id, p.descricao, p.unidade, YEAR(v.data)
+            ORDER BY p.descricao";
+    
+    
     $stmt = $PDO->prepare($sql);
-    /*$stmt->bindParam(':nomeCidade', $nomeCidade);
-    $stmt->bindParam(':dataConsulta', $dataConsulta);*/
+    $stmt->bindParam(':dataInicial', $dataInicial);
+    $stmt->bindParam(':dataFinal', $dataFinal);
+    if ($nomeProduto) {
+        $stmt->bindParam(':nomeProduto', $nomeProduto);
+    }
     $stmt->execute();
     $retorno = [];
     while ($row = $stmt->fetch()) {
-        $retorno[] = [
-            'id' => $row['id'],
-            'descricao' => $row['descricao'],
-            'unidade' => $row['unidade'],
-        ];
+        if (!$retorno[$row['idProduto']]) {
+            $retorno[$row['idProduto']] = [
+                'descricao' => $row['descricao'],
+                'unidade' => $row['unidade'],
+                'vendasPorAno' => [$row['ano'] => $row['totalVendas']]
+            ];
+        } else {
+            $retorno[$row['idProduto']]['vendasPorAno'][$row['ano']] = $row['totalVendas'];
+        }
+        
     }
     
-        
     if (empty($retorno)) {
         $retorno = ['erros' => ['Não foram localizados registros para a cidade e período informados']];
     }

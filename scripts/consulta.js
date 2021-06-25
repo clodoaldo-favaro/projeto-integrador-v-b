@@ -9,7 +9,7 @@ $(document).ready(
                 type: 'GET',
                 data: {dataInicial: $('#data-inicial').val(), dataFinal: $('#data-final').val(), nomeProduto: $('#nome-produto').val(), action:'obterPrevisaoVendas'},
             }).done(function(response) {
-                console.log(response['message']);
+                alert('Done');
             }).fail(function(response) {
                 alert(JSON.parse(response['responseText'])['error']);
             });
