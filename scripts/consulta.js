@@ -2,24 +2,17 @@ $(document).ready(
     $('#botao-consulta').on('click', function(){
         //var res = validarDadosInformados();
         var res = [];
-        
+        console.log('Fazendo...');
         if (!res['erros']) {
             $.ajax({
                 url: '../backend/funcoes.php',
                 type: 'GET',
                 data: {dataInicial: $('#data-inicial').val(), dataFinal: $('#data-final').val(), nomeProduto: $('#nome-produto').val(), action:'obterPrevisaoVendas'},
             }).done(function(response) {
-                debugger;
-                if (!response['erros']) {
-                    //montarResultadoConsultaCidade(response);
-                    //mostrarResultado();
-                    debugger;
-                    console.log(response);
-                } else {
-                    //mostrarErros(response['erros']);
-                }
-            }
-            );
+                console.log(response['message']);
+            }).fail(function(response) {
+                alert(JSON.parse(response['responseText'])['error']);
+            });
         } else {
             mostrarErros(res['erros']);
         }

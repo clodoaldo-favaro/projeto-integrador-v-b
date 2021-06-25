@@ -3,7 +3,8 @@
 require_once('conexao.php');
 
 if (isset($_GET['action'])) {
-    obterPrevisaoVendas();
+    //obterPrevisaoVendas();
+    popularDados();
 }
 
 function teste() {
@@ -49,56 +50,63 @@ function obterPrevisaoVendas() {
     exit;
 }
 
-function consultaDezMais() {       
-   $dataConsulta = $_POST['dataConsulta'];
-      
-   $PDO = conecta_bd();
-   $sql = "SELECT DISTINCT(casos) casos, recuperados, mortos, bandeiraAtual, 
-	            (SELECT c.nome 
-                  FROM cidades c 
-                  WHERE c.id = a.idCidade) cidade
-            FROM casos a
-            WHERE data=:dataConsulta 
-            ORDER BY a.casos DESC
-            LIMIT 10";
-
-    $stmt = $PDO->prepare($sql);
-    $stmt->bindParam(':dataConsulta', $dataConsulta);
-    $stmt->execute();
-    $cidades= [];
-
-    while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $cidades []= 
-            [
-            'nome' => $resultado['cidade'], 
-            'casos' => (int)$resultado['casos'], 
-            'recuperados' => (int)$resultado['recuperados'], 
-            'mortos' => (int)$resultado['mortos'], 
-            'bandeiraAtual' => $resultado['bandeiraAtual']
-            ];
-    }
-    
-    $retorno = [];
-    if (empty($cidades)) {
-        $retorno['erros'] = ['Não foram localizados registros para o período informado.'];
-    } else {
-        $retorno = $cidades;
+function placeholders($text, $count=0, $separator=","){
+    $result = [];
+    if($count > 0){
+        for($x=0; $x<$count; $x++){
+            $result[] = $text;
+        }
     }
 
-    header('Content-Type: application/json');
-    echo json_encode($retorno);
-    exit;
+    return implode($separator, $result);
 }
 
-function consultaBrasil() {
-    $res = [
-        'casos' => 13900000,
-        'recuperados' => 12300000,
-        'mortos' => 373000
+
+function popularDados() {
+    $produtosUnidade = [
+        'kg',
+        'un',
+        'kg',
+        'kg',
+        'kg',
+        'un',
+        'kg'
     ];
+
+    
+    try {
+        $pdo = conecta_bd();
+    } catch (PDOException $e) {
+        header('HTTP/1.1 500 Internal Server');
+        header('Content-Type: application/json');
+        die(json_encode(['error' => $e->getMessage()]));
+    }
+    
+    $data_fields = ['idVenda', 'idProduto', 'quantidade'];
+    $fieldsQty = sizeof($data_fields);
+    $question_marks = [];
+    $insert_values = [];
+    
+    for ($i=1; $i <= 1000; $i++) { 
+        $idProduto = rand(1, 7);
+        $quantidade = rand(1, 500);
+        if ($produtosUnidade[$idProduto - 1] == 'kg') {
+            $quantidade = (float) ($quantidade . '.' . rand(0, 99));
+        }
+        $insert_values[] = [$i, $idProduto, $quantidade];
+        $question_marks[] = '('  . placeholders('?', $fieldsQty) . ')';
+    }
+    
+    $pdo->beginTransaction(); 
+    $sql = "INSERT INTO vendaitem (" . implode(",", $data_fields) . ") VALUES " . implode(',', $question_marks);
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($insert_values);
+    $pdo->commit();
+    
     
     header('Content-Type: application/json');
-    echo json_encode($res);
+    $retorno = json_encode(['msg' => 'ok']);
+    echo $retorno;
     exit;
 }
 ?>
