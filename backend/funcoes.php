@@ -72,7 +72,6 @@ function popularDados() {
         'un',
         'kg'
     ];
-
     
     try {
         $pdo = conecta_bd();
@@ -87,20 +86,21 @@ function popularDados() {
     $question_marks = [];
     $insert_values = [];
     
-    for ($i=1; $i <= 1000; $i++) { 
+    for ($i=1; $i <= 10000; $i++) { 
         $idProduto = rand(1, 7);
         $quantidade = rand(1, 500);
         if ($produtosUnidade[$idProduto - 1] == 'kg') {
             $quantidade = (float) ($quantidade . '.' . rand(0, 99));
         }
-        $insert_values[] = [$i, $idProduto, $quantidade];
+        $insert_values = array_merge($insert_values, [$i, $idProduto, $quantidade]);
         $question_marks[] = '('  . placeholders('?', $fieldsQty) . ')';
     }
-    
-    $pdo->beginTransaction(); 
+
     $sql = "INSERT INTO vendaitem (" . implode(",", $data_fields) . ") VALUES " . implode(',', $question_marks);
+    $pdo->beginTransaction(); 
     $stmt = $pdo->prepare($sql);
     $stmt->execute($insert_values);
+    $error = $stmt->errorInfo();
     $pdo->commit();
     
     
