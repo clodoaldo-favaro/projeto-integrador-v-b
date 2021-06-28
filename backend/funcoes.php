@@ -45,13 +45,22 @@ function obterPrevisaoVendas() {
         }
         
     }
+
+    //Converte para array comum
+    $retornoTemp = [];
+    $i = 0;
+    foreach ($retorno as $key => $value) {
+        $retornoTemp[] = $value;
+    }
+    
+    $retorno = $retornoTemp;
     
     if (empty($retorno)) {
         $retorno = ['erros' => ['Não foram localizados registros para a cidade e período informados']];
     }
-        
+    $retorno = json_encode($retorno);
     header('Content-Type: application/json');
-    echo json_encode($retorno);
+    echo $retorno;
     
     exit;
 }

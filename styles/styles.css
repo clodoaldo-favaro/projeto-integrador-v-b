@@ -300,6 +300,8 @@ table.table-10, .table-10 td, .table-10 th {
 #tabela-previsao-vendas tr td {
 	min-width: 120px;
 	text-align: right;
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
  
  

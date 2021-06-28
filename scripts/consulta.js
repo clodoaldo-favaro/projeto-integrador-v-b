@@ -85,6 +85,7 @@ function mostrarErros(erros) {
 function montarTabelaResultado(data) {
     var anoInicial = parseInt($('#data-inicial').val());
     var anoFinal = parseInt($('#data-final').val());
+    var quantidadeAnos = anoFinal - anoInicial || 1;
     var mostrarTotaisAnosAnteriores = $('#anos-anteriores').prop('checked');
     
     $('#resultado-sucesso').empty();
@@ -92,8 +93,6 @@ function montarTabelaResultado(data) {
     $('#resultado-sucesso').append(
         $('<h2>', {'text': 'Período: ' + anoInicial + ' a ' + anoFinal})
     )
-
-    debugger;
 
     var tabela = $('<table>', {'id': 'tabela-previsao-vendas'});
     var cabecalhoTabela = $('<thead>').append(
@@ -115,7 +114,36 @@ function montarTabelaResultado(data) {
         $('<th>', {'text': 'Previsão'})
     )
 
-    tabela.append(cabecalhoTabela);
+    var corpoTabela = $('<tbody>');
+
+    var linhasTabela = [];
+    
+    for (let key in data) {
+        var linha = $('<tr>');
+        
+        linha.append(
+            $('<td>', {'text': data[key]['descricao'] + ' (' + data[key]['unidade'] +  ')'})
+        );
+
+        var soma = 0;
+        for (let ano = anoInicial; ano <= anoFinal; ano++) {
+            if (mostrarTotaisAnosAnteriores) {
+                linha.append(
+                    $('<td>', {'text': data[key]['vendasPorAno'][ano] || 0})
+                )
+            }
+            soma += parseFloat(data[key]['vendasPorAno'][ano] || 0.00);
+        }
+        
+        linha.append(
+            $('<td>', {'text': (soma / quantidadeAnos).toFixed(2)})
+        )
+
+        linhasTabela.push(linha);
+      }
+
+    corpoTabela.append(linhasTabela);
+    tabela.append(cabecalhoTabela, corpoTabela);
 
     $('#resultado-sucesso').append(tabela);
 
