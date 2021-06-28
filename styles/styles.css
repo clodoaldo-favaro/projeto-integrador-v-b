@@ -280,5 +280,26 @@ table.table-10, .table-10 td, .table-10 th {
 .bold {
 	font-weight: bold;
 }
+
+#tabela-previsao-vendas {
+	margin-top: 24px;
+	margin-left: 24px;
+}
+
+#tabela-previsao-vendas th:first-child, #tabela-previsao-vendas tr td:first-child {
+	min-width: 200px;
+	text-align: left;
+}
+
+#tabela-previsao-vendas th {
+	min-width: 120px;
+	font-weight: bold;
+	text-align: right;
+}
+
+#tabela-previsao-vendas tr td {
+	min-width: 120px;
+	text-align: right;
+}
  
  

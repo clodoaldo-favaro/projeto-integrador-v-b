@@ -7,10 +7,6 @@ if (isset($_GET['action'])) {
     obterPrevisaoVendas();
 }
 
-function teste() {
-    echo 'oi';
-}
-
 function obterPrevisaoVendas() {
     $nomeProduto = trim($_GET['nomeProduto']);
     $dataInicial = date("Y-m-d", strtotime($_GET['dataInicial']));    
@@ -39,6 +35,7 @@ function obterPrevisaoVendas() {
     while ($row = $stmt->fetch()) {
         if (!$retorno[$row['idProduto']]) {
             $retorno[$row['idProduto']] = [
+                'idProduto' => $row['idProduto'],
                 'descricao' => $row['descricao'],
                 'unidade' => $row['unidade'],
                 'vendasPorAno' => [$row['ano'] => $row['totalVendas']]
