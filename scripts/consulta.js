@@ -1,3 +1,5 @@
+import { regressaoLinear } from './estatistica';
+
 $(document).ready(
     $('#botao-consulta').on('click', function(){
         var res = validarDadosInformados();
