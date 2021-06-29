@@ -1,4 +1,4 @@
-import { regressaoLinear } from './estatistica';
+
 
 $(document).ready(
     $('#botao-consulta').on('click', function(){
@@ -87,8 +87,9 @@ function mostrarErros(erros) {
 function montarTabelaResultado(data) {
     var anoInicial = parseInt($('#data-inicial').val());
     var anoFinal = parseInt($('#data-final').val());
-    var quantidadeAnos = anoFinal - anoInicial || 1;
+    var quantidadeAnos = anoFinal + 1 - anoInicial || 1;
     var mostrarTotaisAnosAnteriores = $('#anos-anteriores').prop('checked');
+    debugger;
     
     $('#resultado-sucesso').empty();
 
@@ -128,17 +129,20 @@ function montarTabelaResultado(data) {
         );
 
         var soma = 0;
+        var vendasAnteriores = [];
         for (let ano = anoInicial; ano <= anoFinal; ano++) {
             if (mostrarTotaisAnosAnteriores) {
                 linha.append(
                     $('<td>', {'text': data[key]['vendasPorAno'][ano] || 0})
                 )
             }
+            vendasAnteriores.push(parseFloat(data[key]['vendasPorAno'][ano] || 0.00));
             soma += parseFloat(data[key]['vendasPorAno'][ano] || 0.00);
         }
-        
+        var media = (soma / quantidadeAnos).toFixed(2);
         linha.append(
-            $('<td>', {'text': (soma / quantidadeAnos).toFixed(2)})
+            $('<td>', {'text': media}),
+            $('<td>', {'text': calcularPrevisao(vendasAnteriores, media, quantidadeAnos)})
         )
 
         linhasTabela.push(linha);
@@ -148,22 +152,26 @@ function montarTabelaResultado(data) {
     tabela.append(cabecalhoTabela, corpoTabela);
 
     $('#resultado-sucesso').append(tabela);
+}
 
+function calcularPrevisao(totais, media, qtdeAnos) {
+    let resumoComPeso = 0;
+    let somatorioPesoPeriodos = 0;
+    let somatorioPesoQuadrados = 0;
     
+    for (let i = 1; i <= qtdeAnos; i++) {
+        resumoComPeso += totais[i - 1]  * i; 
+        somatorioPesoPeriodos += i;
+        somatorioPesoQuadrados += Math.pow(i, 2);
+    }
 
-
-    //$('#resultado-sucesso').append(
-    //    $('<h2>', {'class': 'nomeCidade', 'text': nomeCidade}),
-    //    $('<h3>', {'class': 'bandeira', 'text': bandeira}),
-    //    $('<ul>').append(
-    //        $('<li>', {'text': 'Casos: ' + casos}),
-    //        $('<li>', {'text': 'Óbitos: ' + obitos}),
-    //        $('<li>', {'text': 'Recuperados: ' + recuperados}),
-    //        $('<li>', {'text': 'Taxa de mortalidade: ' + taxaMortalidade + '%'}),
-    //        $('<li>', {'text': 'Taxa de recuperação: ' + taxaRecuperacao + '%'})
-    //    )
-    //);
-
+    let diferenca = resumoComPeso - (media * somatorioPesoPeriodos);
+    let ratio = somatorioPesoQuadrados - (Math.pow(somatorioPesoPeriodos / qtdeAnos, 2) * qtdeAnos);
+    let a = diferenca / ratio;
+    let b = media - (a * ratio);
+    let previsao = ((qtdeAnos + 1) * a) + b;
+    
+    return previsao.toFixed(2);
 }
 
 function mostrarResultado() {

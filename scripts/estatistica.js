@@ -1,4 +1,8 @@
-export function regressaoLinear(values_x, values_y) {
+function testenildo() {
+    alert('testenildo');
+}
+
+function regressaoLinear(values_x, values_y) {
     var sum_x = 0;
     var sum_y = 0;
     var sum_xy = 0;
