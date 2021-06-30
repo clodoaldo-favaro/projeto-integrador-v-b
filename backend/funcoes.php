@@ -3,8 +3,9 @@
 require_once('conexao.php');
 
 if (isset($_GET['action'])) {
-    //popularDados();
-    obterPrevisaoVendas();
+    if ($_GET['action'] == 'obterPrevisaoVendas') {
+        obterPrevisaoVendas();
+    }
 }
 
 function obterPrevisaoVendas() {
