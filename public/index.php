@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta COVID-19</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="../fontawesome-free-5.15.1-web/css/all.css" rel="stylesheet">
@@ -55,7 +56,6 @@
     <script src="../bootstrap-4.5.3-dist/js/bootstrap.bundle.min.js"></script>
     <script src="../scripts/consulta.js"></script>
     <script src="../scripts/acessibilidade.js"></script>
-    <script src="../scripts/changeFontSize.js"></script>
     <script src="../scripts/header.js"></script>
 </body>
 </html>
