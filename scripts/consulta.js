@@ -89,7 +89,6 @@ function montarTabelaResultado(data) {
     var anoFinal = parseInt($('#data-final').val());
     var quantidadeAnos = anoFinal + 1 - anoInicial || 1;
     var mostrarTotaisAnosAnteriores = $('#anos-anteriores').prop('checked');
-    debugger;
     
     $('#resultado-sucesso').empty();
 

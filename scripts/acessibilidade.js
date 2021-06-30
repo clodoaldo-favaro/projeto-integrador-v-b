@@ -28,14 +28,16 @@ $(document).ready(function() {
     
         if (color == 'rgb(250, 237, 192)') {
             $('body').css('background-color', '#000');
-            document.body.style.setProperty()
+            
             $('.navegacao').css({
                 'background-color': '#000',
                 'color': '#FFF',
                 'border': '2px solid white',
             });
             $('#header').css('border', '2px solid white');
-            $('.acessibilidade a').css('color', '#FFF');
+            $('#barra-acessibilidade a').css('color', '#FFF');
+            $("label[for='anos-anteriores']").css('color', '#FFF');
+            $('span').css('color', '#FFF');
             
             $('#nome-produto').removeClass('formPadrao');
             $('#nome-produto').addClass('altoContraste');
@@ -51,7 +53,7 @@ $(document).ready(function() {
             $('#data-final').addClass('altoContraste');
             $('#data-final').removeClass('placeholderNormal');
             $('#data-final').addClass('placeholderAltoContraste');
-            debugger;
+            
             $('#botao-consulta').removeClass('buttonPadrao formPadrao');
             $('#botao-consulta').addClass('altoContraste');
             
@@ -68,7 +70,9 @@ $(document).ready(function() {
                 'color': '#F9F9F9'
             });
             $('#header').css('border', 'none');
-            $('.acessibilidade a').css('color', '#322');
+            $('#barra-acessibilidade a').css('color', '#322');
+            $("label[for='anos-anteriores']").css('color', '#322');
+            $('span').css('color', '#322');
             
             $('#nome-produto').removeClass('altoContraste');
             $('#nome-produto').addClass('formPadrao');
@@ -103,8 +107,8 @@ $(document).ready(function() {
 
     $(document).on('keydown', function(e) {
         var key = String.fromCharCode(e.keyCode);
-        e.preventDefault();
         if (e.altKey) {
+            e.preventDefault();
             
             switch (key) {
                 case 6: 
