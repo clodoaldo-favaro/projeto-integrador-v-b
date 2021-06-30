@@ -3,7 +3,7 @@
 $(document).ready(
     $('#botao-consulta').on('click', function(){
         var res = validarDadosInformados();
-        //TODO: Mostrar consulta em andamento
+        
         if (!res['erros']) {
             $.ajax({
                 url: '../backend/funcoes.php',
