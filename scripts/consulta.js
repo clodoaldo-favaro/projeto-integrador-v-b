@@ -111,7 +111,7 @@ function montarTabelaResultado(data) {
     
     cabecalhoTabela.append(
         $('<th>', {'text': 'Média'}),
-        $('<th>', {'text': 'Previsão'})
+        $('<th>', {'text': 'Previsão (' + (anoFinal + 1) + ')'  })
     )
 
     var corpoTabela = $('<tbody>');
@@ -164,9 +164,9 @@ function calcularPrevisao(totais, media, qtdeAnos) {
 
     let diferenca = resumoComPeso - (media * somatorioPesoPeriodos);
     let ratio = somatorioPesoQuadrados - (Math.pow(somatorioPesoPeriodos / qtdeAnos, 2) * qtdeAnos);
-    let a = diferenca / ratio;
-    let b = media - (a * ratio);
-    let previsao = ((qtdeAnos + 1) * a) + b;
+    let b = diferenca / ratio;
+    let a = media - (b * ratio);
+    let previsao = a + ((qtdeAnos + 1) * b);
     
     return previsao.toFixed(2);
 }

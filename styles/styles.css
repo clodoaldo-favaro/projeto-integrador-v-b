@@ -296,6 +296,10 @@ table.table-10, .table-10 td, .table-10 th {
 	text-align: left;
 }
 
+#tabela-previsao-vendas th:last-child {
+	min-width: 140px;
+}
+
 #tabela-previsao-vendas th {
 	min-width: 120px;
 	font-weight: bold;
