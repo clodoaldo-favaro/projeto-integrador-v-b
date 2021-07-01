@@ -125,4 +125,52 @@ function popularDados() {
     echo $retorno;
     exit;
 }
+
+function popularDadosCompras() {
+    
+    
+    try {
+        $pdo = conecta_bd();
+    } catch (PDOException $e) {
+        header('HTTP/1.1 500 Internal Server');
+        header('Content-Type: application/json');
+        die(json_encode(['error' => $e->getMessage()]));
+    }
+
+    $sql = "SELECT YEAR(v.data) as ano, MONTH(v.data) as mes, vi.idProduto, SUM(vi.quantidade) as quantidade 
+            FROM
+                vendaitem vi
+            JOIN
+                venda v ON vi.idVenda = v.id
+            JOIN 
+                produto p on vi.idProduto = p.id
+            GROUP BY ano , mes, vi.idProduto";
+       
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $vendas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $data_fields = ['idProduto', 'quantidade', 'data'];
+    $fieldsQty = sizeof($data_fields);
+    $question_marks = [];
+    $insert_values = [];
+    
+    foreach ($vendas as $key => $venda) { 
+        $quantidade = $venda['quantidade'] + rand(1, 3500);
+        $data = $venda['ano'] . '-' . substr('0' . $venda['mes'],-2, 2) . '-01';
+        
+        $insert_values = array_merge($insert_values, [$venda['idProduto'], $quantidade, $data]);
+        $question_marks[] = '('  . placeholders('?', $fieldsQty) . ')';
+    }
+
+    $sql = "INSERT INTO pedidocompra (" . implode(",", $data_fields) . ") VALUES " . implode(',', $question_marks);
+    $pdo->beginTransaction(); 
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($insert_values);
+    $error = $stmt->errorInfo();
+    $pdo->commit();
+    
+    
+    exit;
+}
 ?>

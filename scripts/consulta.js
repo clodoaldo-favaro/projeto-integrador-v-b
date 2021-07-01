@@ -2,8 +2,8 @@
 
 $(document).ready(
     $('#botao-consulta').on('click', function(){
-        var res = validarDadosInformados();
-        
+        var res = [];
+        res = validarDadosInformados();
         if (!res['erros']) {
             $.ajax({
                 url: '../backend/funcoes.php',
@@ -107,12 +107,10 @@ function montarTabelaResultado(data) {
                 $('<th>', {'text': ano})
             )
         }
-        cabecalhoTabela.append(
-            $('<th>', {'text': 'Média'})
-        )
     }
-
+    
     cabecalhoTabela.append(
+        $('<th>', {'text': 'Média'}),
         $('<th>', {'text': 'Previsão'})
     )
 
