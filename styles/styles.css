@@ -255,6 +255,11 @@ table.table-10, .table-10 td, .table-10 th {
 	display: none;
 }
 
+#resultado-consulta {
+	overflow: auto;
+	padding: 12px;
+}
+
 #resultado-sucesso h2 {
 	font-size: 2rem;
 }
