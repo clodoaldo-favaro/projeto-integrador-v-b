@@ -34,7 +34,7 @@ $(document).ready(
             dadosParaGrafico.push(qtdeVendas);
         }
 
-        dadosParaGrafico.push(link.attr('previsao'));
+        dadosParaGrafico.push(link.attr('data-previsao'));
 
         // get title
         var title = dadosVendas[index]['descricao'];
@@ -64,7 +64,7 @@ $(document).ready(
         var canvas = modal.find('.modal-body canvas');
         modal.find('.modal-title').html(title);
         var ctx = canvas[0].getContext("2d");
-        var myBarChart = new Chart(ctx, {
+        myBarChart = new Chart(ctx, {
             type: 'bar',
             data: data,
             options: {
@@ -79,34 +79,14 @@ $(document).ready(
                 }
             },
         });
-        /*var chart = new Chart(ctx).Line({        
-            responsive: true,
-            labels: labels,
-            datasets: [{
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: source
-            },{
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "#F7464A",
-                pointColor: "#FF5A5E",
-                pointStrokeColor: "#FF5A5E",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "red",
-                data: target
-            }]
-        },{});*/
     }).on('hidden.bs.modal',function(event){
         // reset canvas size
         var modal = $('#modalChart');
         var canvas = modal.find('.modal-body canvas');
         canvas.attr('width','568px').attr('height','300px');
         // destroy modal
-        $(this).data('bs.modal', null);
+        myBarChart.destroy();
+        $('#modalChart').data('bs.modal', null);
     })
 );
 
@@ -271,54 +251,4 @@ function calcularPrevisao(totais, media, qtdeAnos) {
 function mostrarResultado() {
     $('#resultado-erros').hide();
     $('#resultado-sucesso').show();
-}
-
-function montarGrafico(vendasProduto, previsao) {
-    var dadosParaGrafico = [];
-     
-    for (const [ano, qtdeVendas] of Object.entries(vendasProduto['vendasPorAno'])) {
-        dadosParaGrafico.push(qtdeVendas);
-    }
-
-    dadosParaGrafico.push(previsao);
-
-    var chartLabels = [...labelsX, 'Previsão'];
-
-    var chartContainer = document.getElementById('myChart');
-    var data = {
-        labels: chartLabels,
-        datasets: [
-            {
-                label: vendasProduto['descricao'],
-                data: dadosParaGrafico,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)'
-                ],
-                borderColor: [
-                    'rgb(255, 99, 132)'
-                ],
-                borderWidth: 1
-            }
-        ]
-    };
-
-    if (myBarChart) {
-        myBarChart.destroy();
-    }
-
-    var myBarChart = new Chart(chartContainer, {
-        type: 'bar',
-        data: data,
-        options: {
-            barValueSpacing: 20,
-            responsive: true,
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        min: 0,
-                    }
-                }]
-            }
-        },
-    });
 }
