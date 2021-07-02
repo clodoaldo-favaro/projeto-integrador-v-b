@@ -300,6 +300,15 @@ table.table-10, .table-10 td, .table-10 th {
 	min-width: 140px;
 }
 
+.product-description {
+	display: inline-flex;
+	justify-content: space-between;
+}
+
+.fas.fa-chart-bar {
+	cursor: pointer;
+}
+
 #tabela-previsao-vendas th {
 	min-width: 120px;
 	font-weight: bold;
@@ -315,4 +324,33 @@ table.table-10, .table-10 td, .table-10 th {
 	padding-bottom: 4px;
 }
  
- 
+#overlay {
+	opacity: 0.5; 
+	background: #000; 
+	width: 100%;
+	height: 100%; 
+	z-index: 10;
+	top: 0; 
+	left: 0; 
+	position: fixed; 
+	display: none;
+}
+
+.canvas-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal {
+	border: 1px solid black;
+	display: none;
+}
+
+#grafico {
+	background-color: #FFF;
+	width: 500px;
+	height: 500px;
+}

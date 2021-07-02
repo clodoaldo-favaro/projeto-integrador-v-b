@@ -52,8 +52,17 @@
         </div>
     </div>
     
+    <div id="myModal" class="modal">
+        <div class="modalContent">
+            <span class="close-canvas"> &times; </span>
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+    
+    
     <script src="../scripts/jquery.js"></script>
     <script src="../bootstrap-4.5.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.min.js" integrity="sha512-JxJpoAvmomz0MbIgw9mx+zZJLEvC6hIgQ6NcpFhVmbK1Uh5WynnRTTSGv3BTZMNBpPbocmdSJfldgV5lVnPtIw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="../scripts/consulta.js"></script>
     <script src="../scripts/acessibilidade.js"></script>
     <script src="../scripts/header.js"></script>

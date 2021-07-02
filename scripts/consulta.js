@@ -1,4 +1,6 @@
-
+var dadosVendas = [];
+var labelsX = [];
+var myBarChart = null;
 
 $(document).ready(
     $('#botao-consulta').on('click', function(){
@@ -10,6 +12,7 @@ $(document).ready(
                 type: 'GET',
                 data: {dataInicial: $('#data-inicial').val(), dataFinal: $('#data-final').val(), nomeProduto: $('#nome-produto').val(), action:'obterPrevisaoVendas'},
             }).done(function(response) {
+                dadosVendas = response;
                 montarTabelaResultado(response);
                 mostrarResultado();
             }).fail(function(response) {
@@ -18,6 +21,10 @@ $(document).ready(
         } else {
             mostrarErros(res['erros']);
         }
+    }),
+
+    $('#botao-fechar-grafico').on('click', function() {
+        $('#overlay').hide();
     })
 );
 
@@ -89,6 +96,7 @@ function montarTabelaResultado(data) {
     var anoFinal = parseInt($('#data-final').val());
     var quantidadeAnos = anoFinal + 1 - anoInicial || 1;
     var mostrarTotaisAnosAnteriores = $('#anos-anteriores').prop('checked');
+    var that = this;
     
     $('#resultado-sucesso').empty();
 
@@ -100,13 +108,14 @@ function montarTabelaResultado(data) {
     var cabecalhoTabela = $('<thead>').append(
         $('<th>', {'text': 'Produto'})
     );
-    
-    if (mostrarTotaisAnosAnteriores) {
-        for (let ano = anoInicial; ano <= anoFinal; ano++) {
+    labelsX = [];
+    for (let ano = anoInicial; ano <= anoFinal; ano++) {
+        if (mostrarTotaisAnosAnteriores) {
             cabecalhoTabela.append(
                 $('<th>', {'text': ano})
             )
         }
+        labelsX.push(ano);
     }
     
     cabecalhoTabela.append(
@@ -120,9 +129,12 @@ function montarTabelaResultado(data) {
     
     for (let key in data) {
         var linha = $('<tr>');
-        
+        var chartIcon = $('<i>', {'class':'fas fa-chart-bar'});
         linha.append(
-            $('<td>', {'text': data[key]['descricao'] + ' (' + data[key]['unidade'] +  ')'})
+            $('<td>', {'class': 'product-description'}).append(
+                $('<span>', {'text': data[key]['descricao'] + ' (' + data[key]['unidade'] +  ')'}),
+                chartIcon
+            )
         );
 
         var soma = 0;
@@ -137,10 +149,14 @@ function montarTabelaResultado(data) {
             soma += parseFloat(data[key]['vendasPorAno'][ano] || 0.00);
         }
         var media = (soma / quantidadeAnos).toFixed(2);
+        var previsao = calcularPrevisao(vendasAnteriores, media, quantidadeAnos);
         linha.append(
             $('<td>', {'text': media}),
-            $('<td>', {'text': calcularPrevisao(vendasAnteriores, media, quantidadeAnos)})
-        )
+            $('<td>', {'text': previsao})
+        );
+        chartIcon.on('click', function() {
+            that.montarGrafico(data[key], previsao);
+        })
 
         linhasTabela.push(linha);
       }
@@ -174,4 +190,54 @@ function calcularPrevisao(totais, media, qtdeAnos) {
 function mostrarResultado() {
     $('#resultado-erros').hide();
     $('#resultado-sucesso').show();
+}
+
+function montarGrafico(vendasProduto, previsao) {
+    var dadosParaGrafico = [];
+     
+    for (const [ano, qtdeVendas] of Object.entries(vendasProduto['vendasPorAno'])) {
+        dadosParaGrafico.push(qtdeVendas);
+    }
+
+    dadosParaGrafico.push(previsao);
+
+    var chartLabels = [...labelsX, 'Previsão'];
+
+    var chartContainer = document.getElementById('myChart');
+    var data = {
+        labels: chartLabels,
+        datasets: [
+            {
+                label: vendasProduto['descricao'],
+                data: dadosParaGrafico,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)'
+                ],
+                borderWidth: 1
+            }
+        ]
+    };
+
+    if (myBarChart) {
+        myBarChart.destroy();
+    }
+
+    var myBarChart = new Chart(chartContainer, {
+        type: 'bar',
+        data: data,
+        options: {
+            barValueSpacing: 20,
+            responsive: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                    }
+                }]
+            }
+        },
+    });
 }
