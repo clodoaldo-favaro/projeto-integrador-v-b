@@ -16,26 +16,23 @@ function obterPrevisaoVendas() {
     $whereProduto = $nomeProduto ? (" AND p.descricao  LIKE CONCAT ('%', :nomeProduto,  '%')") : "";
     
     $PDO = conecta_bd();
-    $sqlVendas = "SELECT p.id as idProduto, p.descricao, p.unidade, YEAR(v.data) as ano,  SUM(vi.quantidade) as totalVendas, SUM(pc.quantidade) as totalCompras
+    $sqlVendas = "(SELECT p.id as idProduto, p.descricao, p.unidade, YEAR(v.data) as ano,  SUM(vi.quantidade) as total, 'S' as tipo
         FROM vendaitem vi 
             JOIN venda v ON vi.idVenda = v.id 
             JOIN produto p ON vi.idProduto = p.id 
-            LEFT JOIN pedidocompra pc ON v.idProduto = pc.idProduto AND YEAR(v.data) = YEAR(pc.data)
             WHERE v.data BETWEEN :dataInicial AND :dataFinal " . $whereProduto .
-            " GROUP BY p.id, p.descricao, p.unidade, YEAR(v.data)
-            ORDER BY p.descricao";
+            " GROUP BY p.id, p.descricao, p.unidade, ano, tipo
+            ORDER BY p.descricao)";
 
-        $sqlCompras = "SELECT p.id as idProduto, p.descricao, p.unidade, YEAR(v.data) as ano,  SUM(vi.quantidade) as totalVendas, SUM(pc.quantidade) as totalCompras
-        FROM vendaitem vi 
-            JOIN venda v ON vi.idVenda = v.id 
-            JOIN produto p ON vi.idProduto = p.id 
-            LEFT JOIN pedidocompra pc ON v.idProduto = pc.idProduto AND YEAR(v.data) = YEAR(pc.data)
-            WHERE v.data BETWEEN :dataInicial AND :dataFinal " . $whereProduto .
-            " GROUP BY p.id, p.descricao, p.unidade, YEAR(v.data)
-            ORDER BY p.descricao";
+        $sqlCompras = "(SELECT p.id as idProduto, p.descricao, p.unidade, YEAR(pc.data) as ano,  SUM(pc.quantidade) as total, 'E' as tipo
+            FROM pedidocompra pc
+                JOIN produto p ON pc.idProduto = p.id 
+                WHERE pc.data BETWEEN :dataInicial AND :dataFinal " . $whereProduto .
+                " GROUP BY p.id, p.descricao, p.unidade, ano, tipo
+                ORDER BY p.descricao)";
     
-    
-    $stmt = $PDO->prepare($sqlVendas);
+    $sql = $sqlVendas . ' UNION ALL ' . $sqlCompras;
+    $stmt = $PDO->prepare($sql);
     $stmt->bindParam(':dataInicial', $dataInicial);
     $stmt->bindParam(':dataFinal', $dataFinal);
     if ($nomeProduto) {
@@ -44,15 +41,16 @@ function obterPrevisaoVendas() {
     $stmt->execute();
     $retorno = [];
     while ($row = $stmt->fetch()) {
+        $field = $row['tipo'] == 'S' ? 'vendasPorAno' : 'comprasPorAno';
         if (!$retorno[$row['idProduto']]) {
             $retorno[$row['idProduto']] = [
                 'idProduto' => $row['idProduto'],
                 'descricao' => $row['descricao'],
                 'unidade' => $row['unidade'],
-                'vendasPorAno' => [$row['ano'] => $row['totalVendas']]
+                $field => [$row['ano'] => $row['totalVendas']]
             ];
         } else {
-            $retorno[$row['idProduto']]['vendasPorAno'][$row['ano']] = $row['totalVendas'];
+            $retorno[$row['idProduto']][$field][$row['ano']] = $row['totalVendas'];
         }
         
     }
