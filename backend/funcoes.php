@@ -16,16 +16,26 @@ function obterPrevisaoVendas() {
     $whereProduto = $nomeProduto ? (" AND p.descricao  LIKE CONCAT ('%', :nomeProduto,  '%')") : "";
     
     $PDO = conecta_bd();
-    $sql = "SELECT p.id as idProduto, p.descricao, p.unidade, YEAR(v.data) as ano,  SUM(vi.quantidade) as totalVendas
+    $sqlVendas = "SELECT p.id as idProduto, p.descricao, p.unidade, YEAR(v.data) as ano,  SUM(vi.quantidade) as totalVendas, SUM(pc.quantidade) as totalCompras
         FROM vendaitem vi 
             JOIN venda v ON vi.idVenda = v.id 
             JOIN produto p ON vi.idProduto = p.id 
+            LEFT JOIN pedidocompra pc ON v.idProduto = pc.idProduto AND YEAR(v.data) = YEAR(pc.data)
+            WHERE v.data BETWEEN :dataInicial AND :dataFinal " . $whereProduto .
+            " GROUP BY p.id, p.descricao, p.unidade, YEAR(v.data)
+            ORDER BY p.descricao";
+
+        $sqlCompras = "SELECT p.id as idProduto, p.descricao, p.unidade, YEAR(v.data) as ano,  SUM(vi.quantidade) as totalVendas, SUM(pc.quantidade) as totalCompras
+        FROM vendaitem vi 
+            JOIN venda v ON vi.idVenda = v.id 
+            JOIN produto p ON vi.idProduto = p.id 
+            LEFT JOIN pedidocompra pc ON v.idProduto = pc.idProduto AND YEAR(v.data) = YEAR(pc.data)
             WHERE v.data BETWEEN :dataInicial AND :dataFinal " . $whereProduto .
             " GROUP BY p.id, p.descricao, p.unidade, YEAR(v.data)
             ORDER BY p.descricao";
     
     
-    $stmt = $PDO->prepare($sql);
+    $stmt = $PDO->prepare($sqlVendas);
     $stmt->bindParam(':dataInicial', $dataInicial);
     $stmt->bindParam(':dataFinal', $dataFinal);
     if ($nomeProduto) {
