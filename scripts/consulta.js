@@ -41,26 +41,45 @@ $(document).ready(
         
         // get labels
         var chartLabels = [...labelsX, 'Previsão'];
-        
-        var table = link.parents('table');
-        var labels = [];
-        $('#'+table.attr('id')+'>thead>tr>th').each(function(index,value){
-            // without first column
-            if(index>0){labels.push($(value).html());}
-        });
-        
-        // get target source
-        var target = [];
-        $.each(labels, function(index,value){
-            target.push(link.attr('data-target-source'));
-        });
+
+        var data = {
+            labels: chartLabels,
+            datasets: [
+                {
+                    label: title,
+                    data: dadosParaGrafico,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)'
+                    ],
+                    borderWidth: 1
+                }
+            ]
+        };
         
         // Chart initialisieren
-        var modal = $(this);
+        var modal = $('#modalChart');
         var canvas = modal.find('.modal-body canvas');
         modal.find('.modal-title').html(title);
         var ctx = canvas[0].getContext("2d");
-        var chart = new Chart(ctx).Line({        
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                barValueSpacing: 20,
+                responsive: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                        }
+                    }]
+                }
+            },
+        });
+        /*var chart = new Chart(ctx).Line({        
             responsive: true,
             labels: labels,
             datasets: [{
@@ -80,10 +99,10 @@ $(document).ready(
                 pointHighlightStroke: "red",
                 data: target
             }]
-        },{});
+        },{});*/
     }).on('hidden.bs.modal',function(event){
         // reset canvas size
-        var modal = $(this);
+        var modal = $('#modalChart');
         var canvas = modal.find('.modal-body canvas');
         canvas.attr('width','568px').attr('height','300px');
         // destroy modal
@@ -292,7 +311,7 @@ function montarGrafico(vendasProduto, previsao) {
         data: data,
         options: {
             barValueSpacing: 20,
-            responsive: false,
+            responsive: true,
             scales: {
                 yAxes: [{
                     ticks: {
