@@ -47,10 +47,10 @@ function obterPrevisaoVendas() {
                 'idProduto' => $row['idProduto'],
                 'descricao' => $row['descricao'],
                 'unidade' => $row['unidade'],
-                $field => [$row['ano'] => $row['totalVendas']]
+                $field => [$row['ano'] => $row['total']]
             ];
         } else {
-            $retorno[$row['idProduto']][$field][$row['ano']] = $row['totalVendas'];
+            $retorno[$row['idProduto']][$field][$row['ano']] = $row['total'];
         }
         
     }
