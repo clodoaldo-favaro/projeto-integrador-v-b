@@ -73,6 +73,7 @@
       </div>
       <div class="modal-body">
         <canvas id="canvas" width="568" height="300"></canvas>
+        <canvas id="canvas_2" width="568" height="300"></canvas>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>

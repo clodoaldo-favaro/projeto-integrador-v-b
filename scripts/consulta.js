@@ -1,6 +1,7 @@
 var dadosVendas = [];
 var labelsX = [];
 var myBarChart = null;
+var myBarChart_2 = null;
 
 $(document).ready(
     $('#botao-consulta').on('click', function(){
@@ -29,18 +30,26 @@ $(document).ready(
         
         // get data source
         var dadosParaGrafico = [];
+        var dadosParaGraficoVendas = [];
+        var dadosParaGraficoCompras = [];
      
         for (const [ano, qtdeVendas] of Object.entries(dadosVendas[index]['vendasPorAno'])) {
             dadosParaGrafico.push(qtdeVendas);
+            dadosParaGraficoVendas.push(qtdeVendas);
         }
 
+        for (const [ano, qtdeCompras] of Object.entries(dadosVendas[index]['comprasPorAno'])) {
+            dadosParaGraficoCompras.push(qtdeCompras);
+        }
+
+        dadosParaGrafico.push(link.attr('data-media'));
         dadosParaGrafico.push(link.attr('data-previsao'));
 
         // get title
         var title = dadosVendas[index]['descricao'];
         
         // get labels
-        var chartLabels = [...labelsX, 'Previsão'];
+        var chartLabels = [...labelsX, 'Média', 'Previsão'];
 
         var data = {
             labels: chartLabels,
@@ -59,11 +68,42 @@ $(document).ready(
             ]
         };
         
+        var dataCompraVenda = {
+            labels: labelsX,
+            datasets: [
+                {
+                    label: 'Vendas',
+                    data: dadosParaGraficoVendas,
+                    backgroundColor: [
+                        'rgba(99, 255, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgb(99, 255, 132)'
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Compras',
+                    data: dadosParaGraficoCompras,
+                    backgroundColor: [
+                        'rgba(99, 132, 255, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgb(99, 132, 255)'
+                    ],
+                    borderWidth: 1
+                }
+            ]
+        };
+        
         // Chart initialisieren
         var modal = $('#modalChart');
-        var canvas = modal.find('.modal-body canvas');
-        modal.find('.modal-title').html(title);
+        var canvas = modal.find('.modal-body #canvas');
+        var canvas_2 = modal.find('.modal-body #canvas_2');
+        modal.find('.modal-title').html(title + '. Previsão de vendas e comparativo de compra e venda');
         var ctx = canvas[0].getContext("2d");
+        var ctx2 = canvas_2[0].getContext("2d");
+        
         myBarChart = new Chart(ctx, {
             type: 'bar',
             data: data,
@@ -79,13 +119,32 @@ $(document).ready(
                 }
             },
         });
+
+        myBarChart_2 = new Chart(ctx2, {
+            type: 'bar',
+            data: dataCompraVenda,
+            options: {
+                barValueSpacing: 20,
+                responsive: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                        }
+                    }]
+                }
+            },
+        });
     }).on('hidden.bs.modal',function(event){
         // reset canvas size
         var modal = $('#modalChart');
-        var canvas = modal.find('.modal-body canvas');
+        var canvas = modal.find('.modal-body #canvas');
+        var canvas_2 = modal.find('.modal-body #canvas_2');
         canvas.attr('width','568px').attr('height','300px');
+        canvas_2.attr('width','568px').attr('height','300px');
         // destroy modal
         myBarChart.destroy();
+        myBarChart_2.destroy();
         $('#modalChart').data('bs.modal', null);
     })
 );
@@ -213,6 +272,7 @@ function montarTabelaResultado(data) {
         var media = (soma / quantidadeAnos).toFixed(2);
         var previsao = calcularPrevisao(vendasAnteriores, media, quantidadeAnos);
 
+        chartIcon.attr('data-media', media);
         chartIcon.attr('data-previsao', previsao);
         linha.append(
             $('<td>', {'text': media}),
