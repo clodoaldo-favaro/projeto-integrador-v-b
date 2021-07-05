@@ -63,8 +63,15 @@ function obterPrevisaoVendas() {
     $retorno = $retornoTemp;
     
     if (empty($retorno)) {
-        $retorno = ['erros' => ['Não foram localizados registros para a cidade e período informados']];
+        $retorno = ['erros' => ['Não foram localizados registros para o período e produto informados']];
     }
+
+    if (isset($retorno['erros'])) {
+        header('HTTP/1.1 500 Internal Server');
+        header('Content-Type: application/json');
+        die(json_encode(['erros' => $retorno['erros']]));
+    }
+
     $retorno = json_encode($retorno);
     header('Content-Type: application/json');
     echo $retorno;

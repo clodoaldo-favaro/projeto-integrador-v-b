@@ -17,7 +17,7 @@ $(document).ready(
                 montarTabelaResultado(response);
                 mostrarResultado();
             }).fail(function(response) {
-                alert(JSON.parse(response['responseText'])['error']);
+                mostrarErros(JSON.parse(response['responseText'])['erros']);
             });
         } else {
             mostrarErros(res['erros']);
