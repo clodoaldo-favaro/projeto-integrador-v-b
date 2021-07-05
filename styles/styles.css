@@ -354,3 +354,18 @@ table.table-10, .table-10 td, .table-10 th {
 	width: 500px;
 	height: 500px;
 }
+
+@media (max-width: 1199px) {
+	.body-container {
+		flex-direction: column;
+	}
+
+	.side-bar {
+		width: 100%;
+	}
+
+	.resultado-container {
+		width: 100%;
+		margin-top: 16px;
+	}
+}
