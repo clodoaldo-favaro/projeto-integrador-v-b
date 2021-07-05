@@ -16,22 +16,20 @@ function obterPrevisaoVendas() {
     $whereProduto = $nomeProduto ? (" AND p.descricao  LIKE CONCAT ('%', :nomeProduto,  '%')") : "";
     
     $PDO = conecta_bd();
-    $sqlVendas = "(SELECT p.id as idProduto, p.descricao, p.unidade, YEAR(v.data) as ano,  SUM(vi.quantidade) as total, 'S' as tipo
+    $sqlVendas = "(SELECT p.id as idProduto, p.descricao as descricao, p.unidade, YEAR(v.data) as ano,  SUM(vi.quantidade) as total, 'S' as tipo
         FROM vendaitem vi 
             JOIN venda v ON vi.idVenda = v.id 
             JOIN produto p ON vi.idProduto = p.id 
             WHERE v.data BETWEEN :dataInicial AND :dataFinal " . $whereProduto .
-            " GROUP BY p.id, p.descricao, p.unidade, ano, tipo
-            ORDER BY p.descricao)";
+            " GROUP BY p.id, p.descricao, p.unidade, ano, tipo ";
 
-        $sqlCompras = "(SELECT p.id as idProduto, p.descricao, p.unidade, YEAR(pc.data) as ano,  SUM(pc.quantidade) as total, 'E' as tipo
+        $sqlCompras = "SELECT p.id as idProduto, p.descricao as descricao, p.unidade, YEAR(pc.data) as ano,  SUM(pc.quantidade) as total, 'E' as tipo
             FROM pedidocompra pc
                 JOIN produto p ON pc.idProduto = p.id 
                 WHERE pc.data BETWEEN :dataInicial AND :dataFinal " . $whereProduto .
-                " GROUP BY p.id, p.descricao, p.unidade, ano, tipo
-                ORDER BY p.descricao)";
+                " GROUP BY p.id, p.descricao, p.unidade, ano, tipo)";
     
-    $sql = $sqlVendas . ' UNION ALL ' . $sqlCompras;
+    $sql = 'SELECT * from ' . ($sqlVendas . ' UNION ALL ' . $sqlCompras) . ' as tab  ORDER BY descricao';
     $stmt = $PDO->prepare($sql);
     $stmt->bindParam(':dataInicial', $dataInicial);
     $stmt->bindParam(':dataFinal', $dataFinal);
