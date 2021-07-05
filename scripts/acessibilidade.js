@@ -69,7 +69,7 @@ $(document).ready(function() {
                 'border': 'none',
                 'color': '#F9F9F9'
             });
-            $('#header').css('border', 'none');
+            $('#header, #barra-auxiliar').css('border', 'none');
             $('#barra-acessibilidade a').css('color', '#322');
             $("label[for='anos-anteriores']").css('color', '#322');
             $('span').css('color', '#322');
