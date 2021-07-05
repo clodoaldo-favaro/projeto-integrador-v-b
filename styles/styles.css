@@ -60,6 +60,7 @@ button.formPadrao:focus {
 }
 
 #barra-auxiliar {
+	background-color: var(--background);
 	z-index: 2;
 }
 
@@ -367,5 +368,26 @@ table.table-10, .table-10 td, .table-10 th {
 	.resultado-container {
 		width: 100%;
 		margin-top: 16px;
+	}
+
+	#barra-acessibilidade {
+		flex-direction: column;
+	}
+
+	.list-group-horizontal {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.navegacao {
+		margin-top: 124px;
+	}
+
+	#barra-auxiliar {
+		padding-bottom: 12px;
+	}
+
+	.body-container {
+		margin-top: 250px;
 	}
 }

@@ -29,7 +29,7 @@ $(document).ready(function() {
         if (color == 'rgb(250, 237, 192)') {
             $('body').css('background-color', '#000');
             
-            $('.navegacao').css({
+            $('.navegacao, #barra-auxiliar').css({
                 'background-color': '#000',
                 'color': '#FFF',
                 'border': '2px solid white',
@@ -63,7 +63,7 @@ $(document).ready(function() {
             $('#barra-auxiliar').removeClass('backgroundNormal');
             $('#barra-auxiliar').addClass('altoContraste');
         } else {
-            $('body').css('background-color', 'rgb(250, 237, 192)');
+            $('body, #barra-auxiliar').css('background-color', 'rgb(250, 237, 192)');
             $('.navegacao').css({
                 'background-color': '#636AAD',
                 'border': 'none',
